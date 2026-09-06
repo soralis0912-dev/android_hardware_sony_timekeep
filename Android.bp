@@ -4,6 +4,16 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+// This repository checks out inside hardware/sony, which declares a namespace
+// of its own when a sony device is in the same tree. Without one here, whether
+// these modules are visible depends on which other devices happen to share the
+// checkout: they fall into hardware/sony's namespace, and a product that asked
+// for timekeep without asking for all of hardware/sony stops finding it.
+// Claiming the subtree keeps that answer the same either way - the importing
+// side is PRODUCT_SOONG_NAMESPACES += hardware/sony/timekeep.
+soong_namespace {
+}
+
 cc_binary {
     name: "timekeep",
     srcs: ["timekeep.c"],
